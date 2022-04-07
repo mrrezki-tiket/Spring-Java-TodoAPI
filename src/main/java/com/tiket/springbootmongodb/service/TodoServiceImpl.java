@@ -38,4 +38,14 @@ public class TodoServiceImpl implements TodoService {
             return new ArrayList<TodoDTO>();
         }
     }
+
+    @Override
+    public TodoDTO getSingleTodo(String id) throws TodoCollectionException {
+        Optional<TodoDTO> optionalTodo = todoRepository.findById(id);
+        if (!optionalTodo.isPresent()) {
+            throw new TodoCollectionException(TodoCollectionException.NotFoundException(id));
+        } else {
+            return optionalTodo.get();
+        }
+    }
 }

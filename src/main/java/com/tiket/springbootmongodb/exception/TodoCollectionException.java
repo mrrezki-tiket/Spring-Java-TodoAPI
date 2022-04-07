@@ -8,7 +8,7 @@ public class TodoCollectionException extends Exception {
     }
 
     public static String NotFoundException(String id) {
-        return "Todo with id" + id + " not found!";
+        return "Todo with id " + id + " not found!";
     }
 
     public static String TodoAlreadyExists() {
