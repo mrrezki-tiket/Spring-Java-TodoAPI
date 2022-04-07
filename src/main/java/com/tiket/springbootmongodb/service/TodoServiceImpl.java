@@ -4,11 +4,13 @@ import com.tiket.springbootmongodb.exception.TodoCollectionException;
 import com.tiket.springbootmongodb.model.TodoDTO;
 import com.tiket.springbootmongodb.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolationException;
 import java.util.Date;
 import java.util.Optional;
 
+@Service
 public class TodoServiceImpl implements TodoService {
 
     @Autowired

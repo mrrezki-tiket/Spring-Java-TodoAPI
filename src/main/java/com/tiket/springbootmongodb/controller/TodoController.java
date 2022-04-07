@@ -1,12 +1,15 @@
 package com.tiket.springbootmongodb.controller;
 
+import com.tiket.springbootmongodb.exception.TodoCollectionException;
 import com.tiket.springbootmongodb.model.TodoDTO;
 import com.tiket.springbootmongodb.repository.TodoRepository;
+import com.tiket.springbootmongodb.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ConstraintViolationException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +18,9 @@ import java.util.Optional;
 public class TodoController {
     @Autowired
     private TodoRepository todoRepository;
+
+    @Autowired
+    private TodoService todoService;
 
     @GetMapping("/todos")
     public ResponseEntity<?> getAllTodos() {
@@ -29,11 +35,12 @@ public class TodoController {
     @PostMapping("/todos")
     public ResponseEntity<?> createTodo(@RequestBody TodoDTO todo) {
         try {
-            todo.setCreatedAt(new Date(System.currentTimeMillis()));
-            todoRepository.save(todo);
+            todoService.createTodo(todo);
             return new ResponseEntity<TodoDTO>(todo, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (ConstraintViolationException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+        } catch (TodoCollectionException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
     }
 
