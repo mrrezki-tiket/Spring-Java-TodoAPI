@@ -13,12 +13,12 @@ import java.util.Date;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collation = "totos")
-public class TodoTDO {
+@Document(collection = "todos")
+public class TodoDTO {
     @Id
     private String id;
     private String todo;
-    private String desctiption;
+    private String description;
     private Boolean completed;
     private Date createdAt;
     private Date updatedAt;
